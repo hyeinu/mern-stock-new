@@ -1,8 +1,8 @@
 import API from '../API'
 
 const StockActions = {
-  getStocks(text){
-    API.getStocks(text);
+  getStocks(term){
+    API.getStocks(term);
   },
   getDetails(symbol){
     API.getDetails(symbol);
