@@ -11,8 +11,9 @@ export default class App extends Component {
       details: {}
     }
     this.changeInput = this.changeInput.bind(this)
-    // this.searchDetails = this.searchDetails.bind(this)
+    this.clearInput = this.clearInput.bind(this)
   }
+
   componentDidMount(){
     StockStore.startListening(this._onChange);
   }
@@ -22,28 +23,11 @@ export default class App extends Component {
   changeInput(e){
     this.setState({stock: e.target.value})
   }
-  // searchDetails(symbol){
-  //   StockAction.getDetails(symbol)
-  //   this.setState({stocks: []})
-  // }
+  clearInput(e){
+    this.setState({stock: e.target.value})
+  }
   render() {
     let term = this.state.stock
-    // let stocks
-    // let details
-    //
-    // if(this.state.details){
-    //   details = <Details details={this.state.details}/>
-    // } else {
-    //   details = (<div></div>)
-    // }
-    //
-    // if(this.state.stocks.length){
-    //   stocks = this.state.stocks.map((stock, index) =>{
-    //     return <SearchRes key={index} stock={stock} searchDetails={this.searchDetails}/>
-    //   })
-    // } else {
-    //   stocks = (<div></div>)
-    // }
 
     return (
       <div className="container">
@@ -53,7 +37,7 @@ export default class App extends Component {
             <input type="text" className="form-control" onChange={this.changeInput} value={term}/>
             <span className="input-group-btn">
               <Link to={`/search/${term}`}>
-              <button className="btn btn-info btn-md form-control" id="btn-chat">
+              <button onClick={this.clearInput} className="btn btn-info btn-md form-control" id="btn-chat">
                 Search
               </button>
               </Link>

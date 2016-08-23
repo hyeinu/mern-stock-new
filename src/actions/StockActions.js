@@ -6,6 +6,9 @@ const StockActions = {
   },
   getDetails(symbol){
     API.getDetails(symbol);
+  },
+  getCharts(symbol){
+    API.getCharts(symbol);
   }
 }
 

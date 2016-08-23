@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import StockStore from '../stores/StockStore'
 import StockAction from '../actions/StockActions'
+import Stock from './Stock'
+
 
 export default class SearchRes extends Component {
   constructor(){
@@ -9,15 +11,14 @@ export default class SearchRes extends Component {
       stocks: []
     }
     // StockAction.getStocks(this.props.params.term)
-    this.searchDets = this.searchDets.bind(this)
     this._onChange = this._onChange.bind(this)
   }
-  componentDidUpdate(){
-    console.log('this.props.params.term:', this.props.params.term)
-    StockAction.getStocks(this.props.params.term)
+  componentWillReceiveProps(nextProps){
+    StockAction.getStocks(nextProps.params.term)
   }
   componentDidMount(){
     StockStore.startListening(this._onChange);
+    StockAction.getStocks(this.props.params.term)
   }
   componentWillUnmount(){
     StockStore.stopListening(this._onChange);
@@ -25,14 +26,29 @@ export default class SearchRes extends Component {
   _onChange(){
     this.setState({stocks: StockStore.getAll()})
   }
-  searchDets(symbol){
-    this.props.searchDetails(symbol)
-  }
   render(){
-    console.log('this.state.stocks:', this.state.stocks)
+    let stockRows
+    if(this.state.stocks.length){
+      stockRows = this.state.stocks.map((s, index) =>{
+        return <Stock key={index} stock={s}/>
+      })
+    } else{
+      stockRows = (<tr></tr>)
+    }
     return(
-      <h1>Hello this is stock res</h1>
-      // <button className="btn btn-primary" onClick={this.searchDets.bind(null, Symbol)}>{Name} || {Symbol}</button>
+      <table className='table'>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Symbol</th>
+            <th>Exchange</th>
+            <th>Details</th>
+          </tr>
+        </thead>
+        <tbody>
+          {stockRows}
+        </tbody>
+      </table>
     )
   }
 }

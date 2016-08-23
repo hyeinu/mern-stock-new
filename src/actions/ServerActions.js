@@ -13,6 +13,12 @@ const ServerAction = {
       type: Constants.RECIEVE_DETAILS,
       details
     })
+  },
+  recieveChart(chart){
+    AppDispatcher.dispatch({
+      type: Constants.RECIEVE_CHART,
+      chart
+    })
   }
 }
 
